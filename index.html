@@ -1,144 +1,783 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lunarworld | Minecraft Server</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body {
-            background-color: #0d0d12;
-            color: #ffffff;
-            background-image: radial-gradient(circle at 50% -20%, #2a1344 0%, #0d0d12 60%);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
-        .container {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(150, 51, 249, 0.3);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            max-width: 800px;
-            width: 100%;
-            margin-top: 50px;
-            text-align: center;
-        }
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            background: linear-gradient(90deg, #9633F9, #B57EEC);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-        }
-        p.subtitle { color: #a0a0a0; margin-bottom: 30px; font-size: 1.1rem; }
-        
-        .ip-box {
-            background: #1a1a24;
-            border: 2px solid #9633F9;
-            padding: 15px 25px;
-            border-radius: 10px;
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin: 0 auto 30px auto;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 400px;
-        }
-        .ip-box:hover { background: #231a33; transform: scale(1.02); box-shadow: 0 0 15px rgba(150, 51, 249, 0.4); }
-        .ip-box span { color: #B57EEC; font-size: 0.85rem; font-weight: normal; }
-        
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        .feature-item {
-            background: rgba(255,255,255,0.05);
-            padding: 15px;
-            border-radius: 10px;
-            border-left: 3px solid #9633F9;
-            text-align: left;
-        }
-        .feature-item h3 { color: #B57EEC; margin-bottom: 5px; font-size: 1.1rem; }
-        .feature-item p { font-size: 0.9rem; color: #ccc; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lunacy — Minecraft сервер</title>
+<meta name="description" content="Lunacy — Minecraft сервер. Анархия, PvP, кейсы и привилегии. Заходи и играй!" />
+<meta name="theme-color" content="#9633F9" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0d0a12;
+    --bg-soft:#15101c;
+    --card:#1a1324;
+    --card-2:#221832;
+    --line:rgba(180,150,255,.12);
+    --text:#f8f5ff;
+    --muted:#b2a9c9;
+    --accent:#9633F9;
+    --accent-2:#B57EEC;
+    --accent-glow:rgba(150,51,249,.5);
+    --white:#ffffff;
+    --white-glow:rgba(255,255,255,.5);
+    --good:#4ade80;
+    --warn:#fbbf24;
+    --bad:#f87171;
+    --radius:18px;
+    --shadow:0 18px 50px rgba(0,0,0,.55);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Manrope',system-ui,sans-serif;
+    background:
+      radial-gradient(900px 500px at 10% -10%, rgba(150,51,249,.15), transparent 60%),
+      radial-gradient(800px 500px at 90% 0%, rgba(255,255,255,.06), transparent 60%),
+      var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    line-height:1.6;
+    overflow-x:hidden;
+    cursor:none;
+  }
+  @media (pointer: coarse){
+    body{cursor:auto}
+    .neon-cursor{display:none !important}
+  }
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:none}
+  @media (pointer: coarse){button{cursor:pointer}}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 20px}
+  .accent{color:var(--accent)}
 
-        .buttons { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
-        .btn {
-            text-decoration: none;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 8px;
-            font-weight: bold;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 1.1rem;
-        }
-        .btn-discord { background: #5865F2; }
-        .btn-discord:hover { background: #4752c4; transform: translateY(-3px); }
-        .btn-telegram { background: #0088cc; }
-        .btn-telegram:hover { background: #0077b3; transform: translateY(-3px); }
-        
-        .footer { margin-top: 40px; font-size: 0.8rem; color: #555; text-align: center; }
-    </style>
+  .bg-orbs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .bg-orbs .orb{position:absolute;border-radius:50%;filter:blur(120px);opacity:.22;animation:orbFloat 20s ease-in-out infinite alternate}
+  .bg-orbs .orb:nth-child(1){width:520px;height:520px;background:var(--accent);top:-12%;left:-8%;animation-duration:24s}
+  .bg-orbs .orb:nth-child(2){width:400px;height:400px;background:#fff;bottom:-12%;right:-6%;opacity:.10;animation-duration:28s;animation-delay:3s}
+  .bg-orbs .orb:nth-child(3){width:340px;height:340px;background:#B57EEC;top:45%;left:50%;transform:translateX(-50%);animation-duration:22s;animation-delay:6s}
+  @keyframes orbFloat{
+    0%{transform:translate(0,0) scale(1)}
+    33%{transform:translate(40px,-30px) scale(1.1)}
+    66%{transform:translate(-20px,40px) scale(.9)}
+    100%{transform:translate(30px,-10px) scale(1.05)}
+  }
+  .bg-particles{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .particle{position:absolute;border-radius:50%;animation:floatUp linear infinite;opacity:0}
+  @keyframes floatUp{
+    0%{transform:translateY(105vh) scale(0);opacity:0}
+    5%{opacity:.7}
+    90%{opacity:0}
+    100%{transform:translateY(-10vh) scale(1.3);opacity:0}
+  }
+
+  .neon-cursor{
+    position:fixed;pointer-events:none;z-index:9999;width:26px;height:26px;border-radius:50%;
+    background:radial-gradient(circle,rgba(150,51,249,.95) 0%,rgba(255,255,255,.85) 65%,transparent 100%);
+    box-shadow:0 0 20px var(--accent-glow),0 0 40px var(--white-glow);
+    transform:translate(-50%,-50%);
+    transition:width .15s ease,height .15s ease,background .15s ease;
+    animation:cursorPulse 2s ease-in-out infinite;
+  }
+  .neon-cursor.active{width:14px;height:14px;background:#fff;box-shadow:0 0 30px rgba(255,255,255,.9),0 0 60px rgba(255,255,255,.5)}
+  @keyframes cursorPulse{
+    0%,100%{transform:translate(-50%,-50%) scale(1)}
+    50%{transform:translate(-50%,-50%) scale(1.3)}
+  }
+
+  .preloader{
+    position:fixed;inset:0;background:#080604;z-index:99999;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    transition:opacity .6s ease,visibility .6s ease;
+  }
+  .preloader.hidden{opacity:0;visibility:hidden;pointer-events:none}
+  .preloader-logo{
+    font-size:3.5rem;font-weight:900;color:var(--accent);letter-spacing:2px;
+    text-shadow:0 0 40px var(--accent-glow);
+    animation:preloaderPulse 1.2s ease-in-out infinite;
+    text-align:center;padding:0 12px;
+  }
+  .preloader-logo span{color:var(--white);text-shadow:0 0 40px var(--white-glow)}
+  @keyframes preloaderPulse{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.08);opacity:1}}
+  .preloader-spinner{
+    margin-top:26px;width:56px;height:56px;border-radius:50%;
+    border:3px solid rgba(255,255,255,.1);border-top-color:var(--accent);
+    animation:spin .85s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @media (max-width:768px){
+    .preloader-logo{font-size:2rem}
+  }
+
+  .site-header{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    background:rgba(13,10,18,.75);
+    border-bottom:1px solid var(--line);
+  }
+  .header-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;height:70px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.2rem;letter-spacing:.3px}
+  .logo-mark{
+    width:38px;height:38px;border-radius:11px;display:grid;place-items:center;
+    background:linear-gradient(135deg,var(--accent),#fff);
+    color:#1a0f04;font-weight:900;font-size:1.15rem;
+    box-shadow:0 0 20px var(--accent-glow);
+  }
+  .nav{display:flex;align-items:center;gap:6px}
+  .nav a{padding:8px 14px;border-radius:10px;color:var(--muted);font-weight:600;font-size:.92rem;transition:.2s}
+  .nav a:hover{color:var(--text);background:rgba(255,255,255,.06)}
+  .online-pill{
+    display:flex;align-items:center;gap:8px;
+    border:1px solid var(--line);background:rgba(255,255,255,.04);
+    padding:8px 14px;border-radius:999px;font-size:.85rem;font-weight:700;white-space:nowrap;
+  }
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--good);box-shadow:0 0 12px var(--good);animation:pulse 1.8s infinite}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.82)}}
+  .burger{display:none;width:42px;height:42px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--text);font-size:1.2rem}
+  .mobile-nav{display:none;flex-direction:column;gap:4px;padding:12px 20px 18px;border-top:1px solid var(--line);background:rgba(13,10,18,.97)}
+  .mobile-nav.open{display:flex}
+  .mobile-nav a{padding:10px 12px;border-radius:10px;color:var(--muted);font-weight:600}
+  .mobile-nav a:hover{background:rgba(255,255,255,.06);color:var(--text)}
+
+  .hero{padding:72px 0 56px;position:relative;z-index:1}
+  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:7px 14px;border-radius:999px;border:1px solid rgba(150,51,249,.35);
+    background:rgba(150,51,249,.08);font-size:.8rem;font-weight:700;color:var(--accent-2);
+    text-transform:uppercase;letter-spacing:.06em;
+  }
+  h1{font-size:clamp(2.1rem,4.4vw,3.4rem);line-height:1.12;margin:18px 0 14px;font-weight:900}
+  h1 .grad{
+    background:linear-gradient(90deg,var(--accent),#fff,var(--accent));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero p.lead{color:var(--muted);font-size:1.05rem;max-width:520px}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:13px 24px;border-radius:12px;font-weight:700;font-size:.95rem;
+    border:1px solid transparent;transition:.22s;min-height:46px;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg,var(--accent),#fff);
+    color:#1a0f04;
+    box-shadow:0 10px 30px rgba(150,51,249,.3);
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(150,51,249,.45)}
+  .btn-ghost{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.14);color:var(--text)}
+  .btn-ghost:hover{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.3)}
+  .ip-box{
+    display:flex;align-items:center;gap:12px;margin-top:26px;
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:12px 14px;max-width:460px;
+    box-shadow:0 0 30px rgba(150,51,249,.06);
+  }
+  .ip-box code{flex:1;font-family:ui-monospace,monospace;font-size:.95rem;color:var(--accent);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ip-box .btn{padding:9px 14px;font-size:.82rem;border-radius:10px;min-height:auto}
+
+  .server-card{
+    background:linear-gradient(180deg,var(--card-2),var(--card));
+    border:1px solid var(--line);border-radius:var(--radius);
+    padding:26px;box-shadow:var(--shadow);
+    position:relative;
+  }
+  .server-card::before{
+    content:'';position:absolute;inset:0;border-radius:inherit;padding:1px;
+    background:linear-gradient(135deg,rgba(150,51,249,.4),rgba(255,255,255,.15));
+    -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+    mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;
+  }
+  .server-card .row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px dashed var(--line);font-size:.92rem}
+  .server-card .row:last-child{border-bottom:0}
+  .server-card .row span:first-child{color:var(--muted)}
+  .server-card .row span:last-child{font-weight:700}
+  .server-card .big{font-size:2rem;font-weight:900;color:var(--accent);text-shadow:0 0 20px var(--accent-glow)}
+  .server-card .server-icon{
+    width:56px;height:56px;border-radius:14px;
+    background:linear-gradient(135deg,var(--accent),#fff);
+    display:grid;place-items:center;font-size:1.6rem;margin-bottom:14px;
+    box-shadow:0 0 24px var(--accent-glow);
+  }
+
+  section.block{padding:56px 0;position:relative;z-index:1}
+  .section-head{text-align:center;margin-bottom:34px}
+  .section-head h2{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:900;margin-bottom:8px}
+  .section-head p{color:var(--muted);font-size:.98rem}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:22px;transition:.25s;position:relative;
+  }
+  .card:hover{
+    border-color:rgba(150,51,249,.4);
+    transform:translateY(-4px);
+    box-shadow:0 16px 40px rgba(0,0,0,.45),0 0 30px rgba(150,51,249,.08);
+  }
+  .step-num{
+    width:44px;height:44px;border-radius:12px;display:grid;place-items:center;
+    background:rgba(150,51,249,.14);color:var(--accent);
+    font-weight:900;font-size:1.1rem;margin-bottom:14px;
+  }
+  .card h3{font-size:1.05rem;font-weight:800;margin-bottom:6px}
+  .card p{color:var(--muted);font-size:.92rem}
+  .card code{background:rgba(150,51,249,.1);color:var(--accent);padding:2px 8px;border-radius:6px;font-family:ui-monospace,monospace;font-size:.85rem}
+
+  .product{display:flex;flex-direction:column;position:relative;overflow:hidden}
+  .product .tag{
+    position:absolute;top:14px;right:14px;font-size:.7rem;font-weight:800;
+    padding:4px 10px;border-radius:999px;
+    background:rgba(150,51,249,.18);color:var(--accent-2);
+    text-transform:uppercase;letter-spacing:.05em;
+  }
+  .product .icon{font-size:2rem;margin-bottom:12px;filter:drop-shadow(0 0 12px rgba(150,51,249,.4))}
+  .product h3{font-size:1.1rem}
+  .product .price{font-size:1.5rem;font-weight:900;color:var(--accent);margin:10px 0 14px;text-shadow:0 0 20px rgba(150,51,249,.3)}
+  .product ul{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:18px;flex:1}
+  .product li{font-size:.88rem;color:var(--muted);display:flex;gap:8px;align-items:flex-start}
+  .product li::before{content:'✓';color:var(--accent);font-weight:900}
+  .product .btn{margin-top:auto;width:100%}
+
+  .rules-table{width:100%;border-collapse:collapse;font-size:.9rem}
+  .rules-table th,.rules-table td{padding:12px 14px;border:1px solid var(--line);text-align:left}
+  .rules-table th{background:rgba(150,51,249,.1);color:var(--accent-2);font-weight:800}
+  .rules-table tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+  .rules-table .warn{color:var(--warn)}
+  .rules-table .bad{color:var(--bad)}
+  .rules-table .good{color:var(--good)}
+  .rules-note{
+    margin-top:18px;padding:16px;border:1px dashed rgba(150,51,249,.35);
+    border-radius:12px;background:rgba(150,51,249,.06);
+    font-size:.9rem;color:var(--muted);text-align:center;
+  }
+
+  details.faq{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:16px 20px;margin-bottom:10px;transition:.25s;
+  }
+  details.faq[open]{border-color:rgba(150,51,249,.35);background:rgba(150,51,249,.05)}
+  details.faq summary{
+    cursor:pointer;font-weight:700;list-style:none;
+    display:flex;justify-content:space-between;align-items:center;gap:12px;
+  }
+  details.faq summary::-webkit-details-marker{display:none}
+  details.faq summary::after{
+    content:'+';color:var(--accent);font-size:1.4rem;font-weight:400;transition:.25s;
+  }
+  details.faq[open] summary::after{transform:rotate(45deg)}
+  details.faq p{margin-top:10px;color:var(--muted);font-size:.92rem}
+
+  footer{border-top:1px solid var(--line);padding:40px 0;text-align:center;position:relative;z-index:1}
+  footer .socials{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:18px 0}
+  footer .socials a{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:11px 20px;border-radius:999px;
+    border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.04);
+    font-weight:700;font-size:.88rem;transition:.22s;
+  }
+  footer .socials a:hover{
+    border-color:var(--accent);color:var(--accent);
+    transform:translateY(-2px);box-shadow:0 0 24px var(--accent-glow);
+  }
+  footer .copy{color:var(--muted);font-size:.82rem}
+
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);
+    z-index:100;display:none;align-items:center;justify-content:center;padding:20px;
+  }
+  .modal-overlay.open{display:flex}
+  .modal{
+    background:var(--card-2);border:2px solid var(--accent);border-radius:22px;
+    padding:30px;max-width:440px;width:100%;text-align:center;position:relative;
+    box-shadow:0 0 60px var(--accent-glow);
+    animation:modalIn .35s ease;
+  }
+  @keyframes modalIn{from{opacity:0;transform:translateY(24px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+  .modal h3{font-size:1.4rem;font-weight:900;margin-bottom:6px}
+  .modal p{color:var(--muted);font-size:.9rem;margin-bottom:18px}
+  .modal input{
+    width:100%;padding:14px 18px;border-radius:12px;border:1px solid var(--line);
+    background:var(--bg);color:var(--text);font-size:1rem;outline:none;margin-bottom:18px;
+    font-family:inherit;
+  }
+  .modal input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(150,51,249,.18)}
+  .modal .btn{width:100%}
+  .modal-close{
+    position:absolute;top:10px;right:14px;background:none;border:0;
+    color:var(--muted);font-size:1.6rem;line-height:1;
+  }
+  .modal-close:hover{color:var(--text)}
+
+  #toasts{
+    position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:200;
+    display:flex;flex-direction:column;gap:8px;align-items:center;
+    pointer-events:none;width:90%;max-width:440px;
+  }
+  .toast{
+    background:var(--card-2);border:1px solid var(--line);border-left:4px solid var(--accent);
+    padding:12px 20px;border-radius:12px;font-size:.9rem;font-weight:700;
+    box-shadow:var(--shadow);animation:toastIn .3s ease, toastOut .3s ease 2.2s forwards;
+    width:100%;text-align:center;
+  }
+  .toast.error{border-left-color:var(--bad)}
+  .toast.success{border-left-color:var(--good)}
+  @keyframes toastIn{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes toastOut{to{opacity:0;transform:translateY(-12px)}}
+
+  #toTop{
+    position:fixed;right:24px;bottom:24px;width:48px;height:48px;border-radius:12px;
+    border:2px solid #fff;background:var(--card);color:#fff;font-size:1.15rem;
+    display:grid;place-items:center;opacity:0;visibility:hidden;transform:translateY(12px);
+    transition:.25s;z-index:40;box-shadow:0 0 20px rgba(255,255,255,.25);
+  }
+  #toTop.show{opacity:1;visibility:visible;transform:translateY(0)}
+  #toTop:hover{background:#fff;color:#1a0f04;box-shadow:0 0 30px rgba(255,255,255,.6)}
+
+  @media(max-width:980px){
+    .hero-grid{grid-template-columns:1fr;gap:28px}
+    .grid-4{grid-template-columns:repeat(2,1fr)}
+    .grid-3{grid-template-columns:1fr}
+  }
+  @media(max-width:760px){
+    .nav{display:none}
+    .burger{display:grid}
+    .online-pill{display:none}
+    .grid-4{grid-template-columns:1fr}
+    section.block{padding:40px 0}
+    .hero{padding:48px 0 32px}
+    .rules-table{font-size:.78rem}
+    .rules-table th,.rules-table td{padding:8px 8px}
+    .bg-particles{display:none}
+    .bg-orbs .orb{filter:blur(70px) !important;opacity:.13 !important}
+    .card:hover{transform:none}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important}
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>Lunarworld</h1>
-        <p class="subtitle">Погрузись в мир, где заботятся об игроках</p>
-        
-        <div class="ip-box" onclick="copyIP()">
-            <strong>play.lunarworld.ru</strong>
-            <span id="copy-text">Нажми, чтобы скопировать</span>
-        </div>
-        
-        <div class="features">
-            <div class="feature-item">
-                <h3>⚔️ PvP & Griefing</h3>
-                <p>Сражайся за ресурсы и защищай свою базу.</p>
-            </div>
-            <div class="feature-item">
-                <h3>🌍 Выживание</h3>
-                <p>Исследуй уникальный кастомный мир.</p>
-            </div>
-            <div class="feature-item">
-                <h3>🎁 Ивенты</h3>
-                <p>Еженедельные мероприятия с крутыми призами.</p>
-            </div>
-        </div>
-        
-        <div class="buttons">
-            <a href="https://t.me/lunacy_studio" target="_blank" class="btn btn-telegram">✈️ Telegram</a>
-            <a href="https://discord.gg/ВАША_ССЫЛКА" target="_blank" class="btn btn-discord">🎮 Discord</a>
-        </div>
-        
-        <div class="footer">
-            &copy; 2026 Lunarworld. Все права защищены.
-        </div>
+
+<div class="preloader" id="preloader">
+  <div class="preloader-logo">⚡ <span id="preloaderName">LUNACY</span></div>
+  <div class="preloader-spinner"></div>
+</div>
+
+<div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+<div class="bg-particles" id="particles"></div>
+
+<div class="neon-cursor" id="neonCursor"></div>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="#" class="logo">
+      <span class="logo-mark" id="logoMark">L</span>
+      <span id="logoText">Lunacy</span>
+    </a>
+    <nav class="nav">
+      <a href="#start">Как начать</a>
+      <a href="#shop">Привилегии</a>
+      <a href="#cases">Кейсы</a>
+      <a href="#rules">Правила</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="online-pill">
+      <span class="dot"></span>
+      Онлайн: <span id="onlineNow" class="accent">—</span> / <span id="onlineMax">—</span>
+    </div>
+    <button class="burger" id="burger" aria-label="Меню">☰</button>
+  </div>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#start">Как начать</a>
+    <a href="#shop">Привилегии</a>
+    <a href="#cases">Кейсы</a>
+    <a href="#rules">Правила</a>
+    <a href="#faq">FAQ</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="badge">⚡ Версия <span id="heroVersion">1.21.11</span></div>
+      <h1><span id="heroName">Lunacy</span> —<br><span class="grad">играй по-своему</span></h1>
+      <p class="lead" id="heroLead">Анархия, PvP, кейсы и честная экономика. Заходи без регистрации — сразу в бой.</p>
+
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="copyIP()">📋 Скопировать IP</button>
+        <a href="#shop" class="btn btn-ghost">🛒 Магазин</a>
+      </div>
+
+      <div class="ip-box">
+        <code id="ipText">play.lunacy.studio</code>
+        <button class="btn btn-ghost" onclick="copyIP()">Копировать</button>
+      </div>
     </div>
 
-    <script>
-        function copyIP() {
-            navigator.clipboard.writeText("play.lunarworld.ru");
-            const textSpan = document.getElementById("copy-text");
-            textSpan.innerText = "IP скопирован!";
-            textSpan.style.color = "#4ade80";
-            setTimeout(() => {
-                textSpan.innerText = "Нажми, чтобы скопировать";
-                textSpan.style.color = "#B57EEC";
-            }, 2000);
-        }
-    </script>
+    <aside class="server-card">
+      <div class="server-icon">⛏️</div>
+      <div class="row"><span>Сервер</span><span id="cardName">Lunacy</span></div>
+      <div class="row"><span>Версия</span><span id="cardVersion">1.21.11</span></div>
+      <div class="row"><span>Сейчас онлайн</span><span class="big" id="cardOnline">—</span></div>
+      <div class="row"><span>Слотов</span><span id="cardMax">—</span></div>
+      <div class="row"><span>Режим</span><span>Анархия · PvP</span></div>
+    </aside>
+  </div>
+</section>
+
+<section class="block" id="start">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>🚀 Как начать играть</h2>
+      <p>Три шага — и ты в игре</p>
+    </div>
+    <div class="grid-3">
+      <div class="card">
+        <div class="step-num">1</div>
+        <h3>Скачай Minecraft</h3>
+        <p>Нужна версия <code id="stepVersion">1.21.11</code>. Подойдёт официальный лаунчер или любой совместимый.</p>
+      </div>
+      <div class="card">
+        <div class="step-num">2</div>
+        <h3>Добавь сервер</h3>
+        <p>IP: <code id="stepIP">play.lunacy.studio</code>. Вставь его в список серверов.</p>
+      </div>
+      <div class="card">
+        <div class="step-num">3</div>
+        <h3>Заходи и играй</h3>
+        <p>Регистрация не нужна. Зашёл — сразу в бой.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="shop">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>💎 Привилегии</h2>
+      <p>Поддержи проект и получи бонусы в игре</p>
+    </div>
+    <div class="grid-4" id="shopGrid"></div>
+  </div>
+</section>
+
+<section class="block" id="cases">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>🎁 Кейсы и ключи</h2>
+      <p>Открой редкие предметы и ресурсы</p>
+    </div>
+    <div class="grid-4" id="casesGrid"></div>
+  </div>
+</section>
+
+<section class="block" id="rules">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>📜 Правила сервера</h2>
+      <p>Коротко и по делу</p>
+    </div>
+    <div class="card" style="padding:26px">
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:22px">
+        <li>▸ Запрещены читы, баги и софт, дающий преимущество.</li>
+        <li>▸ Уважай других игроков: без оскорблений и травли.</li>
+        <li>▸ Не спамь в чате и не рекламируй другие проекты.</li>
+        <li>▸ Гриферство разрешено в разумных пределах.</li>
+        <li>▸ Спорные ситуации решает администрация.</li>
+      </ul>
+      <h3 style="margin-bottom:12px;font-size:1.05rem">⚡ Система наказаний</h3>
+      <div style="overflow-x:auto">
+        <table class="rules-table">
+          <thead>
+            <tr><th>Нарушение</th><th>1-е</th><th>2-е</th><th>3-е+</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Мат / оскорбления</td><td class="warn">Предупреждение</td><td class="warn">Мут 30 мин</td><td class="bad">Бан 1 день</td></tr>
+            <tr><td>Спам / флуд</td><td class="warn">Предупреждение</td><td class="warn">Мут 15 мин</td><td class="warn">Мут 1 час</td></tr>
+            <tr><td>Читы</td><td class="bad">Бан 3 дня</td><td class="bad">Бан 13 дней</td><td class="bad">Бан 30 дней</td></tr>
+            <tr><td>Гриферство на спавне</td><td class="warn">Предупреждение</td><td class="warn">Кик</td><td class="bad">Бан 3 дня</td></tr>
+            <tr><td>Реклама</td><td class="warn">Предупреждение</td><td class="warn">Мут 1 день</td><td class="bad">Бан навсегда</td></tr>
+            <tr><td>Использование багов</td><td class="warn">Предупреждение</td><td class="bad">Бан 3 дня</td><td class="bad">Бан навсегда</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="rules-note">❗ Администрация может изменить меру наказания в зависимости от обстоятельств.</div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="faq">
+  <div class="wrap" style="max-width:820px">
+    <div class="section-head">
+      <h2>❓ Частые вопросы</h2>
+      <p>Что чаще всего спрашивают новички</p>
+    </div>
+    <details class="faq"><summary>Какая версия сервера?</summary><p><span id="faqVersion">1.21.11</span>. Клиенты других версий могут не подключиться.</p></details>
+    <details class="faq"><summary>Нужна ли регистрация?</summary><p>Нет. Заходи и играй. Для донат-привилегий укажи ник при покупке — выдадим автоматически.</p></details>
+    <details class="faq"><summary>Как быстро приходят покупки?</summary><p>Обычно мгновенно. Если что-то пошло не так — напиши в Telegram.</p></details>
+    <details class="faq"><summary>Разрешены ли читы?</summary><p>Нет. X-Ray, killaura, fly, nuker — бан. Всё остальное — свободно.</p></details>
+    <details class="faq"><summary>Можно ли вернуть деньги?</summary><p>Цифровые товары возврату не подлежат, но спорные случаи рассматриваем вручную.</p></details>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div style="font-weight:900;font-size:1.1rem" id="footerName">Lunacy</div>
+    <div class="socials" id="socials"></div>
+    <div class="copy">© <span id="year"></span> <span id="footerName2">Lunacy</span> · Версия <span id="footerVersion">1.21.11</span></div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="buyModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeBuy()">×</button>
+    <h3>🎁 Покупка</h3>
+    <p id="buyProductName">Укажи свой ник в Minecraft</p>
+    <input type="text" id="buyNick" placeholder="Например: Steve" autocomplete="off" />
+    <button class="btn btn-primary" onclick="confirmBuy()">Перейти к оплате</button>
+  </div>
+</div>
+
+<div id="toasts"></div>
+<button id="toTop" aria-label="Наверх">↑</button>
+
+<script>
+/* ============================================================
+   КОНФИГ — меняй только этот блок
+   ============================================================ */
+const CONFIG = {
+  name: "Lunacy",
+  version: "1.21.11", // Поменяй на свою версию
+  ip: "play.lunacy.studio", // ОБЯЗАТЕЛЬНО ПОМЕНЯЙ НА СВОЙ РЕАЛЬНЫЙ IP!
+  maxPlayers: 500,
+  lead: "Анархия, PvP, кейсы и честная экономика. Заходи без регистрации — сразу в бой.",
+  socials: [
+    { label: "Telegram",  icon: "✈️", url: "https://t.me/lunacy_studio" },
+    { label: "Discord",   icon: "💬", url: "https://discord.gg/ваша-ссылка" }
+  ],
+  donateUrl: "https://example.com/donate",
+  privileges: [
+    { name:"VIP",     price:"130 ₽", tag:"",     icon:"🟢", features:["/kit vip","Префикс [VIP]","5 домов","Цветной ник"] },
+    { name:"VIP+",    price:"245 ₽", tag:"",     icon:"🔷", features:["/kit vip+","Префикс [VIP+]","10 домов","Улучшенный набор"] },
+    { name:"Premium", price:"360 ₽", tag:"Хит",  icon:"💠", features:["/kit premium","Префикс [Premium]","15 домов","/repair all"] },
+    { name:"Deluxe",  price:"470 ₽", tag:"",     icon:"🟣", features:["/kit deluxe","Префикс [Deluxe]","20 домов","/heal"] },
+    { name:"Legend",  price:"580 ₽", tag:"",     icon:"🟡", features:["/kit legend","Префикс [Legend]","25 домов"] },
+    { name:"Ultra",   price:"690 ₽", tag:"Топ",  icon:"🔴", features:["/kit ultra","Префикс [Ultra]","30 домов","/fly и /heal","Приоритетный вход"] },
+    { name:"Mythic",  price:"820 ₽", tag:"",     icon:"🟪", features:["/kit mythic","Префикс [Mythic]","35 домов","Все warps"] },
+    { name:"God",     price:"1050 ₽",tag:"MAX",  icon:"⚪", features:["/kit god","Префикс [God]","50 домов","Уникальный скин"] }
+  ],
+  cases: [
+    { name:"1 ключ",     price:"65 ₽",   icon:"🔑", features:["Обычный кейс","Шанс на редкий лут"] },
+    { name:"5 ключей",   price:"260 ₽",  icon:"🔑", features:["5 кейсов","Выгоднее на 16%"] },
+    { name:"10 ключей",  price:"475 ₽",  icon:"🗝️", features:["10 кейсов","Экономия 24%","+ бонусный ключ"] },
+    { name:"100 ключей", price:"2990 ₽", icon:"💎", features:["100 кейсов","Максимальная выгода","Гарантированный редкий предмет"] }
+  ]
+};
+
+/* ============================================================
+   РЕНДЕР
+   ============================================================ */
+const $ = id => document.getElementById(id);
+
+$("preloaderName").textContent = CONFIG.name.toUpperCase();
+$("logoMark").textContent = CONFIG.name.charAt(0).toUpperCase();
+$("logoText").textContent = CONFIG.name;
+$("heroName").textContent = CONFIG.name;
+$("cardName").textContent = CONFIG.name;
+$("footerName").textContent = CONFIG.name;
+$("footerName2").textContent = CONFIG.name;
+$("heroVersion").textContent = CONFIG.version;
+$("cardVersion").textContent = CONFIG.version;
+$("stepVersion").textContent = CONFIG.version;
+$("footerVersion").textContent = CONFIG.version;
+$("faqVersion").textContent = CONFIG.version;
+$("heroLead").textContent = CONFIG.lead;
+$("ipText").textContent = CONFIG.ip;
+$("stepIP").textContent = CONFIG.ip;
+$("onlineMax").textContent = CONFIG.maxPlayers;
+$("cardMax").textContent = CONFIG.maxPlayers;
+$("year").textContent = new Date().getFullYear();
+
+$("socials").innerHTML = CONFIG.socials.map(s =>
+  `<a href="${s.url}" target="_blank" rel="noopener">${s.icon} ${s.label}</a>`
+).join("");
+
+$("shopGrid").innerHTML = CONFIG.privileges.map(p => `
+  <div class="card product">
+    ${p.tag ? `<span class="tag">${p.tag}</span>` : ""}
+    <div class="icon">${p.icon}</div>
+    <h3>${p.name}</h3>
+    <div class="price">${p.price}</div>
+    <ul>${p.features.map(f => `<li>${f}</li>`).join("")}</ul>
+    <button class="btn btn-primary" onclick="openBuy('${p.name}')">Купить</button>
+  </div>
+`).join("");
+
+$("casesGrid").innerHTML = CONFIG.cases.map(c => `
+  <div class="card product">
+    <div class="icon">${c.icon}</div>
+    <h3>${c.name}</h3>
+    <div class="price">${c.price}</div>
+    <ul>${c.features.map(f => `<li>${f}</li>`).join("")}</ul>
+    <button class="btn btn-primary" onclick="openBuy('${c.name}')">Купить</button>
+  </div>
+`).join("");
+
+/* ============================================================
+   ПРЕЛОАДЕР
+   ============================================================ */
+window.addEventListener("load", () => {
+  setTimeout(() => $("preloader").classList.add("hidden"), 900);
+});
+
+/* ============================================================
+   ЧАСТИЦЫ
+   ============================================================ */
+(function createParticles(){
+  const c = $("particles");
+  const isMobile = innerWidth < 768;
+  const count = isMobile ? 10 : 35;
+  const colors = ["#9633F9","#ffffff","#B57EEC","#d4b3ff"];
+  for (let i = 0; i < count; i++){
+    const p = document.createElement("div");
+    p.classList.add("particle");
+    const size = Math.random() * 4 + 2;
+    p.style.width = size + "px";
+    p.style.height = size + "px";
+    p.style.left = Math.random() * 100 + "%";
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    p.style.boxShadow = `0 0 ${size * 3}px ${p.style.background}`;
+    p.style.animationDuration = (Math.random() * 12 + 8) + "s";
+    p.style.animationDelay = (Math.random() * 10) + "s";
+    c.appendChild(p);
+  }
+})();
+
+/* ============================================================
+   КУРСОР
+   ============================================================ */
+const cursor = $("neonCursor");
+const finePointer = window.matchMedia("(pointer: fine)").matches && !("ontouchstart" in window);
+if (cursor && finePointer){
+  let mx = innerWidth / 2, my = innerHeight / 2, cx = mx, cy = my;
+  document.addEventListener("mousemove", e => { mx = e.clientX; my = e.clientY; });
+  (function animate(){
+    cx += (mx - cx) * 0.15;
+    cy += (my - cy) * 0.15;
+    cursor.style.left = cx + "px";
+    cursor.style.top = cy + "px";
+    requestAnimationFrame(animate);
+  })();
+  document.addEventListener("mousedown", () => cursor.classList.add("active"));
+  document.addEventListener("mouseup", () => cursor.classList.remove("active"));
+} else if (cursor){
+  cursor.style.display = "none";
+}
+
+/* ============================================================
+   ТОСТ
+   ============================================================ */
+function toast(msg, type = ""){
+  const el = document.createElement("div");
+  el.className = "toast " + type;
+  el.textContent = msg;
+  $("toasts").appendChild(el);
+  setTimeout(() => el.remove(), 2600);
+}
+
+/* ============================================================
+   IP
+   ============================================================ */
+function copyIP(){
+  const done = () => toast("✅ IP скопирован: " + CONFIG.ip, "success");
+  if (navigator.clipboard?.writeText){
+    navigator.clipboard.writeText(CONFIG.ip).then(done).catch(fallback);
+  } else fallback();
+  function fallback(){
+    const ta = document.createElement("textarea");
+    ta.value = CONFIG.ip;
+    ta.style.cssText = "position:fixed;left:-9999px";
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand("copy"); done(); }
+    catch { toast("❌ Не удалось скопировать", "error"); }
+    ta.remove();
+  }
+}
+
+/* ============================================================
+   ПОКУПКА
+   ============================================================ */
+let buyProduct = "";
+function openBuy(name){
+  buyProduct = name;
+  $("buyProductName").textContent = name + " — укажи свой ник в Minecraft";
+  $("buyNick").value = "";
+  $("buyModal").classList.add("open");
+  setTimeout(() => $("buyNick").focus(), 80);
+}
+function closeBuy(){ $("buyModal").classList.remove("open"); }
+function confirmBuy(){
+  const nick = $("buyNick").value.trim();
+  if (!nick){ toast("⚠️ Введи ник", "error"); return; }
+  closeBuy();
+  toast("✅ " + buyProduct + " для «" + nick + "» — переходим к оплате", "success");
+  // window.open(CONFIG.donateUrl + "?nick=" + encodeURIComponent(nick), "_blank");
+}
+$("buyModal").addEventListener("click", e => { if (e.target === $("buyModal")) closeBuy(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeBuy(); });
+
+/* ============================================================
+   ОНЛАЙН
+   ============================================================ */
+async function loadOnline(){
+  try {
+    const res = await fetch("https://api.mcsrvstat.us/3/" + encodeURIComponent(CONFIG.ip), { cache: "no-store" });
+    const data = await res.json();
+    if (data && data.online){
+      setOnline(data.players?.online ?? 0, data.players?.max ?? CONFIG.maxPlayers);
+      return;
+    }
+  } catch (e) {}
+  simulateOnline();
+}
+function setOnline(now, max){
+  $("onlineNow").textContent = now;
+  $("cardOnline").textContent = now;
+  $("onlineMax").textContent = max;
+  $("cardMax").textContent = max;
+}
+function simulateOnline(){
+  const max = CONFIG.maxPlayers;
+  const hour = new Date().getHours();
+  const curve = [0.5,0.45,0.4,0.38,0.36,0.38,0.45,0.55,0.65,0.7,0.75,0.8,0.85,0.88,0.9,0.92,0.95,0.98,1,1,0.97,0.9,0.78,0.62];
+  let cur = Math.round(max * curve[hour] * 0.7);
+  setOnline(cur, max);
+  setInterval(() => {
+    cur += Math.floor(Math.random() * 5) - 2;
+    cur = Math.max(1, Math.min(max, cur));
+    setOnline(cur, max);
+  }, 5000);
+}
+loadOnline();
+
+/* ============================================================
+   МОБИЛЬНОЕ МЕНЮ
+   ============================================================ */
+$("burger").addEventListener("click", () => $("mobileNav").classList.toggle("open"));
+document.querySelectorAll("#mobileNav a").forEach(a =>
+  a.addEventListener("click", () => $("mobileNav").classList.remove("open"))
+);
+
+/* ============================================================
+   SCROLL TOP
+   ============================================================ */
+addEventListener("scroll", () => $("toTop").classList.toggle("show", scrollY > 600));
+$("toTop").addEventListener("click", () => scrollTo({ top: 0, behavior: "smooth" }));
+</script>
 </body>
 </html>
