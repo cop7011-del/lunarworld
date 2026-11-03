@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lunarworld | Minecraft Server</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body {
+            background-color: #0d0d12;
+            color: #ffffff;
+            background-image: radial-gradient(circle at 50% -20%, #2a1344 0%, #0d0d12 60%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(150, 51, 249, 0.3);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            max-width: 800px;
+            width: 100%;
+            margin-top: 50px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #9633F9, #B57EEC);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        p.subtitle { color: #a0a0a0; margin-bottom: 30px; font-size: 1.1rem; }
+        
+        .ip-box {
+            background: #1a1a24;
+            border: 2px solid #9633F9;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 0 auto 30px auto;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 400px;
+        }
+        .ip-box:hover { background: #231a33; transform: scale(1.02); box-shadow: 0 0 15px rgba(150, 51, 249, 0.4); }
+        .ip-box span { color: #B57EEC; font-size: 0.85rem; font-weight: normal; }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .feature-item {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 3px solid #9633F9;
+            text-align: left;
+        }
+        .feature-item h3 { color: #B57EEC; margin-bottom: 5px; font-size: 1.1rem; }
+        .feature-item p { font-size: 0.9rem; color: #ccc; }
+
+        .buttons { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+        .btn {
+            text-decoration: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+        }
+        .btn-discord { background: #5865F2; }
+        .btn-discord:hover { background: #4752c4; transform: translateY(-3px); }
+        .btn-telegram { background: #0088cc; }
+        .btn-telegram:hover { background: #0077b3; transform: translateY(-3px); }
+        
+        .footer { margin-top: 40px; font-size: 0.8rem; color: #555; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lunarworld</h1>
+        <p class="subtitle">Погрузись в мир, где заботятся об игроках</p>
+        
+        <div class="ip-box" onclick="copyIP()">
+            <strong>play.lunarworld.ru</strong>
+            <span id="copy-text">Нажми, чтобы скопировать</span>
+        </div>
+        
+        <div class="features">
+            <div class="feature-item">
+                <h3>⚔️ PvP & Griefing</h3>
+                <p>Сражайся за ресурсы и защищай свою базу.</p>
+            </div>
+            <div class="feature-item">
+                <h3>🌍 Выживание</h3>
+                <p>Исследуй уникальный кастомный мир.</p>
+            </div>
+            <div class="feature-item">
+                <h3>🎁 Ивенты</h3>
+                <p>Еженедельные мероприятия с крутыми призами.</p>
+            </div>
+        </div>
+        
+        <div class="buttons">
+            <a href="https://t.me/lunacy_studio" target="_blank" class="btn btn-telegram">✈️ Telegram</a>
+            <a href="https://discord.gg/ВАША_ССЫЛКА" target="_blank" class="btn btn-discord">🎮 Discord</a>
+        </div>
+        
+        <div class="footer">
+            &copy; 2026 Lunarworld. Все права защищены.
+        </div>
+    </div>
+
+    <script>
+        function copyIP() {
+            navigator.clipboard.writeText("play.lunarworld.ru");
+            const textSpan = document.getElementById("copy-text");
+            textSpan.innerText = "IP скопирован!";
+            textSpan.style.color = "#4ade80";
+            setTimeout(() => {
+                textSpan.innerText = "Нажми, чтобы скопировать";
+                textSpan.style.color = "#B57EEC";
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
